@@ -2,8 +2,7 @@ import ActivityBar from '@/components/ActivityBar'
 import MetricGraph from '@/components/MetricGraph'
 
 async function getData() {
-  // const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities`, {
-  const res = await fetch(`http://localhost:3000/api/activities`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities`, {
     cache: 'no-store',
   })
 
@@ -22,12 +21,15 @@ export default async function DashboardPage() {
       <h1 className="mb-6 text-2xl font-bold">Dashboard</h1>
 
       <div className="space-y-8">
-        <div className="rounded-lg bg-white p-6 shadow">
+        <div className="rounded-lg p-6 shadow backdrop-blur-sm">
           <h2 className="mb-4 text-xl font-semibold">Metrics</h2>
-          <MetricGraph metrics={metrics} type="tiredness" />
+          <MetricGraph
+            metrics={metrics}
+            types={['tiredness', 'mood', 'stress']}
+          />
         </div>
 
-        <div className="rounded-lg bg-white p-6 shadow">
+        <div className="rounded-lg p-6 shadow backdrop-blur-sm">
           <h2 className="mb-4 text-xl font-semibold">Activities</h2>
           <div className="space-y-4">
             <ActivityBar activities={activities} type="sport" days={30} />

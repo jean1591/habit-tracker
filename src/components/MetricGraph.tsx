@@ -26,31 +26,46 @@ ChartJS.register(
 
 interface MetricGraphProps {
   metrics: MetricEntry[]
-  type: 'tiredness' | 'stress' | 'mood'
+  types: ('tiredness' | 'stress' | 'mood')[]
 }
 
-export default function MetricGraph({ metrics, type }: MetricGraphProps) {
-  const filteredMetrics = metrics.filter((m) => m.type === type)
+export default function MetricGraph({ metrics, types }: MetricGraphProps) {
+  const getColor = (type: string) =>
+    type === 'tiredness'
+      ? 'rgb(255, 99, 132)'
+      : type === 'stress'
+        ? 'rgb(53, 162, 235)'
+        : 'rgb(75, 192, 192)'
 
   const data = {
-    labels: filteredMetrics.map((m) => new Date(m.date).toLocaleDateString()),
-    datasets: [
-      {
-        label: type.charAt(0).toUpperCase() + type.slice(1),
-        data: filteredMetrics.map((m) => m.value),
-        borderColor:
-          type === 'tiredness'
-            ? 'rgb(255, 99, 132)'
-            : type === 'stress'
-              ? 'rgb(53, 162, 235)'
-              : 'rgb(75, 192, 192)',
-        tension: 0.1,
-      },
-    ],
+    labels: Array.from(
+      new Set(metrics.map((m) => new Date(m.date).toLocaleDateString()))
+    ),
+    datasets: types.map((type) => ({
+      label: type.charAt(0).toUpperCase() + type.slice(1),
+      data: metrics.filter((m) => m.type === type).map((m) => m.value),
+      borderColor: getColor(type),
+      tension: 0.4,
+      borderWidth: 1.5,
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+    })),
   }
 
   const options = {
     responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+      },
+    },
     scales: {
       y: {
         min: 1,
@@ -58,6 +73,16 @@ export default function MetricGraph({ metrics, type }: MetricGraphProps) {
         ticks: {
           stepSize: 1,
         },
+        grid: {
+          color: 'rgba(0, 0, 0, 0)',
+        },
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+      },
+      x: {
+        grid: {
+          color: 'rgba(0, 0, 0, 0)',
+        },
+        backgroundColor: 'rgba(0, 0, 0, 0)',
       },
     },
   }
