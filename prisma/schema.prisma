@@ -1,0 +1,106 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            String    @id @default(cuid())
+    createdAt     DateTime  @default(now())
+    email         String    @unique
+    emailVerified DateTime?
+    image         String?
+    name          String?
+    password      String
+    updatedAt     DateTime  @updatedAt
+
+    accounts   Account[]
+    sessions   Session[]
+    Payment    Payment[]
+    activities Activity[]
+    Metric     Metric[]
+}
+
+model Account {
+    id                String  @id @default(cuid())
+    access_token      String? @db.Text
+    expires_at        Int?
+    id_token          String? @db.Text
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    scope             String?
+    session_state     String?
+    token_type        String?
+    type              String
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId            String
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    expires      DateTime
+    sessionToken String   @unique
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId       String
+}
+
+model VerificationToken {
+    identifier String
+    expires    DateTime
+    token      String   @unique
+
+    @@unique([identifier, token])
+}
+
+model Product {
+    id        String @id @default(cuid())
+    env       String @default("dev")
+    name      String
+    price     Float
+    priceId   String @unique // Stripe price ID
+    productId String @unique // Stripe product ID
+}
+
+model Payment {
+    id              String   @id @default(cuid())
+    createdAt       DateTime @default(now())
+    feedbacks       Int      @default(0)
+    paymentIntentId String   @unique // Stripe payment intent ID
+    productName     String
+    status          String   @default("paid")
+    userId          String
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+    id     String   @id @default(cuid())
+    userId String
+    date   DateTime
+    type   String // 'sport' | 'cheat_meal' | 'meditation'
+    user   User     @relation(fields: [userId], references: [id])
+
+    @@index([userId, date])
+    @@index([userId])
+    @@index([date])
+}
+
+model Metric {
+    id        String   @id @default(cuid())
+    type      String // 'tiredness' | 'stress' | 'mood'
+    value     Int // 1-5
+    date      DateTime
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([date])
+}
