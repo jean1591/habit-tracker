@@ -27,13 +27,15 @@ export default function ActivityBar({
   }
 
   return (
-    <div className="w-full">
-      <div className="mb-2 text-sm font-medium">{type}</div>
+    <div className="w-full space-y-4">
+      <p className="text-sm font-medium">
+        {type.replaceAll('_', ' ').toUpperCase()}
+      </p>
       <div className="flex rounded border">
         {dates.map((date) => (
           <div
             key={date}
-            className={`h-6 w-6 ${hasActivity(date) ? 'bg-blue-500' : ''}`}
+            className={`h-6 w-6 ${hasActivity(date) ? 'bg-pink-800' : ''}`}
           />
         ))}
       </div>
