@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 interface ActivityBarProps {
   activities: Activity[]
   type: ActivityType
-  days: number // Number of days to display
+  days: number
   showDates?: boolean
 }
 
@@ -63,7 +63,7 @@ export default function ActivityBar({
         {dates.map((date) => (
           <div
             key={date}
-            className={`h-6 flex-1 cursor-pointer transition-colors hover:bg-pink-100 ${
+            className={`h-6 flex-1 cursor-pointer transition-colors hover:bg-pink-200 ${
               hasActivity(date) ? 'bg-pink-700' : ''
             }`}
             onClick={() => toggleActivity(date)}
@@ -75,7 +75,7 @@ export default function ActivityBar({
         <div className="flex w-full text-xs text-gray-500">
           {dates.map((date) => (
             <div key={date} className="flex-1 text-center">
-              {new Date(date).getDate()}
+              {new Date(date).getDate().toString().padStart(2, '0')}
             </div>
           ))}
         </div>

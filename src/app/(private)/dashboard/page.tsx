@@ -1,7 +1,8 @@
-import { endOfMonth, startOfMonth } from 'date-fns'
+import { PiChartLineBold, PiCheckBold } from 'react-icons/pi'
 
 import ActivityBar from '@/components/ActivityBar'
 import MetricGraph from '@/components/MetricGraph'
+import { endOfMonth } from 'date-fns'
 
 async function getData() {
   const today = new Date()
@@ -25,15 +26,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-20 p-6">
-      <h1 className="inline-block bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-5xl font-extrabold text-transparent">
-        Dashboard
-      </h1>
-
       <div className="space-y-16">
         <div className="space-y-8">
-          <h2 className="inline-block bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-2xl font-bold text-transparent">
-            Metrics
-          </h2>
+          <div className="flex items-center justify-start gap-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-r from-pink-400 to-violet-400">
+              <PiChartLineBold className="h-6 w-6 text-white" />
+            </div>
+            <h2 className="text-4xl font-bold text-white">Metrics</h2>
+          </div>
           <MetricGraph
             metrics={metrics}
             types={['tiredness', 'mood', 'stress']}
@@ -41,9 +41,12 @@ export default async function DashboardPage() {
         </div>
 
         <div className="space-y-8">
-          <h2 className="inline-block bg-gradient-to-r from-pink-400 to-violet-400 bg-clip-text text-2xl font-bold text-transparent">
-            Activities
-          </h2>
+          <div className="flex items-center justify-start gap-4">
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-gradient-to-r from-pink-400 to-violet-400">
+              <PiCheckBold className="h-6 w-6 text-white" />
+            </div>
+            <h2 className="text-4xl font-bold text-white">Activities</h2>
+          </div>
           <div className="space-y-4">
             <ActivityBar
               activities={activities}
