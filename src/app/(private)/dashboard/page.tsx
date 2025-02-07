@@ -54,6 +54,7 @@ export default async function DashboardPage() {
               activities={activities}
               type="cheat_meal"
               days={totalDays}
+              showDates
             />
           </div>
         </div>
