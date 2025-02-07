@@ -14,9 +14,10 @@ export default function ActivityBar({
   days,
 }: ActivityBarProps) {
   const today = new Date()
+  const start = new Date(today.getFullYear(), today.getMonth(), 1)
   const dates = Array.from({ length: days }, (_, i) => {
-    const date = new Date()
-    date.setDate(today.getDate() - (days - 1 - i))
+    const date = new Date(start)
+    date.setDate(start.getDate() + i)
     return date.toISOString().split('T')[0]
   })
 
@@ -35,7 +36,7 @@ export default function ActivityBar({
         {dates.map((date) => (
           <div
             key={date}
-            className={`h-6 w-6 ${hasActivity(date) ? 'bg-pink-800' : ''}`}
+            className={`h-6 w-6 ${hasActivity(date) ? 'bg-pink-700' : ''}`}
           />
         ))}
       </div>
