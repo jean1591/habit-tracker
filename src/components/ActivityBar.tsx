@@ -54,7 +54,7 @@ export default function ActivityBar({
   )
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-2">
       <p className="text-sm font-medium">
         {type.replaceAll('_', ' ').toUpperCase()}
       </p>
@@ -72,7 +72,7 @@ export default function ActivityBar({
       </div>
 
       {showDates && (
-        <div className="flex w-full text-xs text-gray-500">
+        <div className="mt-4 flex w-full text-xs text-gray-500">
           {dates.map((date) => (
             <div key={date} className="flex-1 text-center">
               {new Date(date).getDate().toString().padStart(2, '0')}

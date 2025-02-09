@@ -91,7 +91,7 @@ export default function MetricGraph({ metrics, types }: MetricGraphProps) {
     },
     scales: {
       y: {
-        min: 1,
+        min: 0,
         max: 5,
         ticks: {
           stepSize: 1,

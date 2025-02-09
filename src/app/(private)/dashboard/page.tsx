@@ -47,7 +47,8 @@ export default async function DashboardPage() {
             </div>
             <h2 className="text-4xl font-bold text-white">Activities</h2>
           </div>
-          <div className="space-y-4">
+
+          <div className="space-y-8">
             <ActivityBar
               activities={activities}
               type="sport"
