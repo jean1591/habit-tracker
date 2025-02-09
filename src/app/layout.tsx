@@ -2,7 +2,6 @@ import './globals.css'
 
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
-import NextAuthProvider from './components/NextAuthProvider'
 import Script from 'next/script'
 import { StoreProvider } from '@/store/StoreProvider'
 import { Toaster } from 'react-hot-toast'
@@ -63,16 +62,14 @@ export default function RootLayout({
         <body
           className={classNames(inter.className, 'bg-gray-950 text-slate-50')}
         >
-          <NextAuthProvider>
-            <Script
-              defer
-              src={process.env.UMAMI_URL ?? ''}
-              data-website-id={process.env.UMAMI_SITE_ID ?? ''}
-              strategy="afterInteractive"
-            />
-            <Toaster position="bottom-right" reverseOrder={true} />
-            {children}
-          </NextAuthProvider>
+          <Script
+            defer
+            src={process.env.UMAMI_URL ?? ''}
+            data-website-id={process.env.UMAMI_SITE_ID ?? ''}
+            strategy="afterInteractive"
+          />
+          <Toaster position="bottom-right" reverseOrder={true} />
+          {children}
         </body>
       </html>
     </StoreProvider>
